@@ -12,8 +12,7 @@ https://www.advantageonlineshopping.com/catalog/api/v1/products/search
 - Validar o status code da resposta do serviço.
 #### Atualize a imagem de um produto (POST):
  API:
-https://www.advantageonlineshopping.com/catalog/api/v1/product/imag
-e/{userId}/{source}/{color}
+https://www.advantageonlineshopping.com/catalog/api/v1/product/image/{userId}/{source}/{color}
 - Verifique que o produto foi atualizado corretamente.
 - Verifique o id da image nova inserida
 - Validar o status code da resposta do serviço.
