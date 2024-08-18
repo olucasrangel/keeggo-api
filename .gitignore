@@ -1,0 +1,15 @@
+### VisualStudio Code ###
+
+.vscode/*
+
+# Dependency directories
+
+.DS_Store
+node_modules/
+jspm_modules/
+
+# Optional npm cache directory
+
+.npm
+
+temp/
