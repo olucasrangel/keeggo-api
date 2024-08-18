@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "326f418a-3545-4c1f-ab73-7e48dfafa916",
+		"name": "Keeggo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12554046"
+	},
+	"item": [
+		{
+			"name": "Consultar produto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Todos os produtos correspondem à busca\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    let searchTerm = \"Beats Studio 2 Over-Ear Matte Black Headphones\";",
+							"    ",
+							"    jsonData.forEach(category => {",
+							"        category.products.forEach(product => {",
+							"            pm.expect(product.productName).to.eql(searchTerm);",
+							"        });",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://www.advantageonlineshopping.com/catalog/api/v1/products/search?name=Beats%20Studio%202%20Over-Ear%20Matte%20Black%20Headphones",
+					"protocol": "https",
+					"host": [
+						"www",
+						"advantageonlineshopping",
+						"com"
+					],
+					"path": [
+						"catalog",
+						"api",
+						"v1",
+						"products",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Beats%20Studio%202%20Over-Ear%20Matte%20Black%20Headphones"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar imagem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product was updated successfully\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.be.true;",
+							"    pm.expect(jsonData.reason).to.eql(\"Product was updated successful\");",
+							"});",
+							"",
+							"pm.test(\"Extract imageId\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set(\"imageId\", jsonData.imageId);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3d3cuYWR2YW50YWdlb25saW5lc2hvcHBpbmcuY29tIiwidXNlcklkIjozMjQ5ODE4OTMsInN1YiI6InJhbmdlbCIsInJvbGUiOiJVU0VSIn0.CS17i2spm-JrRBvFb_WZNLBljFgn-Vcom7oSeE0ErcY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "postman-cloud:///1ef5d3db-1189-4060-9593-96cabdbd1160"
+						},
+						{
+							"key": "product_id",
+							"value": "15",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://www.advantageonlineshopping.com/catalog/api/v1/product/image/324981893/jpg/black",
+					"protocol": "https",
+					"host": [
+						"www",
+						"advantageonlineshopping",
+						"com"
+					],
+					"path": [
+						"catalog",
+						"api",
+						"v1",
+						"product",
+						"image",
+						"324981893",
+						"jpg",
+						"black"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar imagem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let expectedImageId = pm.environment.get(\"imageId\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product contains updated imageId\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    let productImages = jsonData.images || [];",
+							"",
+							"    let imageFound = productImages.some(function (image) {",
+							"        return image.id === expectedImageId;",
+							"    });",
+							"",
+							"    pm.expect(imageFound).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.advantageonlineshopping.com/catalog/api/v1/products/15",
+					"protocol": "https",
+					"host": [
+						"www",
+						"advantageonlineshopping",
+						"com"
+					],
+					"path": [
+						"catalog",
+						"api",
+						"v1",
+						"products",
+						"15"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
